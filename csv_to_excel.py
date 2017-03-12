@@ -7,14 +7,19 @@ from xlsxwriter.workbook import Workbook
 for csvfile in glob.glob(os.path.join('.', '*.csv')):
     workbook = Workbook(csvfile + '_2.xlsx')
     worksheet = workbook.add_worksheet()
-    c = 0
+    offset = 130000
+    limit = 230000
     with open(csvfile, 'r') as f:
         spamreader = csv.reader(f, delimiter=',', quotechar='"')
         for r, row in enumerate(spamreader):
-            if (r > 230000):
+
+            if (r!=0 and r > limit):
+                print('breko')
                 break
-            if (r>=130000 and r<=230000):
+
+            if (r == 0 or (r>=offset and r<=limit)):
+                print('Lendo linha...' + str(r))
                 for c, col in enumerate(row):
-                    print('Lendo linha...' + str(r))
-                    worksheet.write(r, c, col)
+                    rNum = r if r==0 else r-offset+1
+                    worksheet.write(rNum, c, col)
     workbook.close()
