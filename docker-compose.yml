@@ -1,0 +1,8 @@
+version: '2'
+
+services:
+  csv_utils:
+    image: lexana/csv_utils
+    build: .
+    volumes:
+      - $PWD:/home/csv
